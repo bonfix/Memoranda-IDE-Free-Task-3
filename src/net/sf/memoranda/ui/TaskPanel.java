@@ -15,11 +15,13 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -696,7 +698,39 @@ public class TaskPanel extends JPanel {
 		}
 		for (int i = 0; i < tocomplete.size(); i++) {
 			Task t = (Task)tocomplete.get(i);
+                        
 			t.setProgress(100);
+                        
+                       
+                        /*int ans = Integer.parseInt( JOptionPane.showInputDialog(null,
+                        "Text",
+                        JOptionPane.INFORMATION_MESSAGE,
+                        null,
+                        null,
+                        "[sample text to help input]"));*/
+                        //JOptionPane.showInputDialog("Input <First Integer>");
+                        
+                         //LOC - get actual LOC
+                        //Creating a custom input dialog (without cancel button) to get the actual lines of code
+                        String[] options = {"OK"};
+                        JPanel panel = new JPanel();
+                        JTextField txt = new JTextField(10);
+                        panel.add(new JLabel("Enter the actual Lines of Code: "));
+                        panel.add(txt);
+                        
+                         //Gets a number entered
+                        int aloc = 0;
+                        int selectedOption = JOptionPane.showOptionDialog(null, panel, "Actual LOC", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);
+                        if(selectedOption == 0)
+                        {
+                            try{
+                            aloc  = Integer.parseInt(txt.getText());
+                            }catch(Exception ex)
+                            {}
+
+                        }
+                        t.setActualLoc(aloc);
+
 		}
 		taskTable.tableChanged();
 		CurrentStorage.get().storeTaskList(CurrentProject.getTaskList(), CurrentProject.get());
